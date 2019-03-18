@@ -6,10 +6,10 @@ import java.util.Properties;
 
 public class DBConn {
 
-    private final static String sqlUrl = "jdbc:mysql://localhost/edvard_project?autoReconnect=true&useSSL=false"; 
+    private final static String sqlUrl = "jdbc:mysql://mysql.stud.ntnu.no/edvardod_group141?autoReconnect=true&useSSL=false"; 
   
-	private final static String userName = "root";
-	private final static String password = "";
+	private final static String userName = "edvardod_group141";
+	private final static String password = "root";
     protected Connection conn;
     public DBConn () {
     }
