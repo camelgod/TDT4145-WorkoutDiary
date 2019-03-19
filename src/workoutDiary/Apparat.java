@@ -1,17 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package workoutDiary;
-
-/**
- *
- * @author sveinbra
- */
 
 import java.sql.*;
-import java.sql.Date;
-import java.util.*;
 
 public class Apparat extends ActiveDomainObject {
     private int id;
@@ -52,7 +40,8 @@ public class Apparat extends ActiveDomainObject {
         try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(
-            		"INSERT INTO `Apparat` VALUES ("+id+","+"\""+navn+"\""+","+"\""+beskrivelse+"\""+");");
+            		"INSERT INTO `Apparat` VALUES ("+id+", " + "\""+navn+"\"" + "," + "\"" +beskrivelse+"\"" + ");");
+
 
         } catch (Exception e) {
             System.out.println("db error during insert of Apparat="+e);
