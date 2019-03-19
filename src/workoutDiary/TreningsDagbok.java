@@ -1,10 +1,8 @@
 package workoutDiary;
 
 
-import java.sql.*;
 import java.sql.Date;
-import java.util.*;
-
+import java.sql.Time;
 
 public class TreningsDagbok {
 
@@ -15,15 +13,19 @@ public class TreningsDagbok {
         
         connection.connect();
         
-        // Økt økt = new Økt(dato,tidspunkt,varighet,prestasjon);
+        //Okt okt = new Okt(dato,tidspunkt,varighet,prestasjon);
 
-        Apparat app1 = new Apparat("Hei", "yo");
-        app1.save(connection.conn);
-        
-        
-        Økt økt = new Økt(1,1,5,9);
-        økt.save(connection.conn);
-        
+
+        Okt okt = new Okt(20190325, 12 ,22,9, 5, "Dette gikk bra");
+        okt.save(connection.conn);
+
+
+        Apparat app = new Apparat("Heia", "yo");
+        app.save(connection.conn);
+
+        Okt okt1 = new Okt(20190325, 13 ,22,9, 5, "Dette gikk bra");
+        okt1.save(connection.conn);
+
 
 	}
 }

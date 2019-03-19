@@ -19,6 +19,7 @@ public class Apparat extends ActiveDomainObject {
     private String beskrivelse;
     
     public Apparat (String navn, String beskrivelse) {
+        //this.id = id;
         this.navn = navn;
         this.beskrivelse = beskrivelse;
     }
@@ -27,10 +28,11 @@ public class Apparat extends ActiveDomainObject {
     public void initialize (Connection conn) {
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select navn, beskrivelse, id=" + id);
+            ResultSet rs = stmt.executeQuery("select ApparatNavn, ApparatBeskrivelse, id=" + id);
             while (rs.next()) {
-                navn =  rs.getString("navn");
-                beskrivelse =  rs.getString("beskrivelse");
+                navn =  rs.getString("ApparatNavn");
+                beskrivelse =  rs.getString("ApparatBeskrivelse");
+                id = rs.getInt("ApparatID");
             }
 
         } catch (Exception e) {
@@ -47,11 +49,10 @@ public class Apparat extends ActiveDomainObject {
     
     @Override
     public void save (Connection conn) {
-        try {    
-            Statement stmt = conn.createStatement(); 
-            System.out.println(navn);
+        try {
+            Statement stmt = conn.createStatement();
             stmt.executeUpdate(
-            		"INSERT INTO `apparat` VALUES ("+id+","+navn+","+beskrivelse+");");
+            		"INSERT INTO `Apparat` VALUES ("+id+","+"\""+navn+"\""+","+"\""+beskrivelse+"\""+");");
 
         } catch (Exception e) {
             System.out.println("db error during insert of Apparat="+e);
