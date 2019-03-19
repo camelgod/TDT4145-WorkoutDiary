@@ -1,3 +1,4 @@
+package workoutDiary;
 
 import java.sql.*;
 

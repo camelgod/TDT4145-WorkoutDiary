@@ -1,5 +1,7 @@
+package workoutDiary;
 
 import java.sql.*;
+import java.util.*;
 
 public class Apparat extends ActiveDomainObject {
     private int id;
@@ -11,29 +13,34 @@ public class Apparat extends ActiveDomainObject {
         this.navn = navn;
         this.beskrivelse = beskrivelse;
     }
-    
-    @Override
-    public void initialize (Connection conn) {
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select ApparatNavn, ApparatBeskrivelse, id=" + id);
-            while (rs.next()) {
-                navn =  rs.getString("ApparatNavn");
-                beskrivelse =  rs.getString("ApparatBeskrivelse");
-                id = rs.getInt("ApparatID");
-            }
 
-        } catch (Exception e) {
-            System.out.println("db error during select of avtale= "+e);
-            return;
-        }
-    
-    }
-    
     @Override
-    public void refresh (Connection conn) {
-        initialize (conn);
+    public String toString() {
+        return "Apparat{" +
+                "id=" + id +
+                ", navn='" + navn + '\'' +
+                ", beskrivelse='" + beskrivelse + '\'' +
+                '}';
     }
+
+    public List<Apparat> getAllApparat(Connection conn){
+       try {
+           List<Apparat> apparatList = new ArrayList<>();
+           Statement stmt = conn.createStatement();
+           ResultSet rs = stmt.executeQuery("select * from Apparat" );
+           while (rs.next()) {
+               navn =  rs.getString("ApparatNavn");
+               beskrivelse =  rs.getString("ApparatBeskrivelse");
+               Apparat apparat = new Apparat(navn, beskrivelse);
+               apparatList.add(apparat);
+           }
+            return apparatList;
+       } catch (Exception e) {
+           System.out.println("db error during select of avtale= "+e);
+           return null;
+       }
+
+   }
     
     @Override
     public void save (Connection conn) {

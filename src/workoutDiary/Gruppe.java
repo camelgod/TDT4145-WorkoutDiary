@@ -2,7 +2,10 @@ package workoutDiary;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Gruppe extends ActiveDomainObject{
 
@@ -15,29 +18,34 @@ public class Gruppe extends ActiveDomainObject{
         this.beskrivelse = beskrivelse;
 
     }
+
     @Override
-    public void initialize(Connection conn) {
+    public String toString() {
+        return "Gruppe{" +
+                "gruppeNavn='" + gruppeNavn + '\'' +
+                ", beskrivelse='" + beskrivelse + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
+    public List<Gruppe> getAllGroups(Connection conn)  {
 
         try {
+            List<Gruppe> groupList = new ArrayList<>();
+
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select gruppeNavn, beskrivelse from Gruppe where id=" + id);
+            ResultSet rs = stmt.executeQuery("select * from Gruppe");
             while (rs.next()) {
                 gruppeNavn = rs.getString("gruppeNavn");
                 beskrivelse = rs.getString("beskrivelse");
+                Gruppe gruppe = new Gruppe(gruppeNavn, beskrivelse);
+                groupList.add(gruppe);
             }
-
+            return groupList;
         } catch (Exception e) {
             System.out.println("db error during select of avtale= "+e);
-            return;
+            return null;
         }
-
-    }
-
-    @Override
-    public void refresh(Connection conn) {
-
-        initialize (conn);
-
     }
 
     @Override
@@ -51,5 +59,18 @@ public class Gruppe extends ActiveDomainObject{
             System.out.println("db error during insert of Gruppe="+e);
             return;
         }
+    }
+
+    public static void main(String[] args) {
+        // TODO code application logic here
+        DBConn connection = new DBConn();
+
+        connection.connect();
+
+        //Okt okt = new Okt(dato,tidspunkt,varighet,prestasjon);
+
+
+        Gruppe gruppe = new Gruppe("hei", "hei");
+        gruppe.getAllGroups(connection.conn);
     }
 }

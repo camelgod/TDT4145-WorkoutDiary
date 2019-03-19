@@ -32,30 +32,41 @@ public Okt(int date, int time, int varighet, int form ,int prestasjon, String no
         //this.id = id;
         }
 
-@Override
-public void initialize (Connection conn) {
-        try {
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("select dato, tidspunkt, varighet, form, prestasjon, notat from Treningsøkt where id=" + id);
-        while (rs.next()) {
-        dato =  rs.getInt("dato");
-        tidspunkt =  rs.getInt("tidspunkt");
-        varighet = rs.getInt("varighet");
-        prestasjon = rs.getInt("prestasjon");
-        form = rs.getInt("form");
-        notat = rs.getString("notat");
-        }
+    @Override
+    public String toString() {
+        return "Okt{" +
+                "id=" + id +
+                ", dato=" + dato +
+                ", tidspunkt=" + tidspunkt +
+                ", varighet=" + varighet +
+                ", form=" + form +
+                ", prestasjon=" + prestasjon +
+                ", notat='" + notat + '\'' +
+                '}';
+    }
 
-        } catch (Exception e) {
-        System.out.println("db error during select of avtale= "+e);
-        return;
-        }
-
-        }
-
-@Override
-public void refresh (Connection conn) {
-        initialize (conn);
+    public List<Okt> getAllOkt(Connection conn){
+            try {
+                List<Okt> oktList = new ArrayList<>();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("select * from Treningsøkt ");
+                while (rs.next()) {
+                    dato =  rs.getInt("dato");
+                    tidspunkt =  rs.getInt("tidspunkt");
+                    varighet = rs.getInt("varighet");
+                    prestasjon = rs.getInt("prestasjon");
+                    form = rs.getInt("form");
+                    notat = rs.getString("notat");
+                    Okt okt = new Okt(dato, tidspunkt,varighet,prestasjon, form
+                    , notat);
+                    oktList.add(okt);
+                }
+                System.out.println(oktList.toString());
+                return oktList;
+            } catch (Exception e) {
+                System.out.println("db error during select of avtale= "+e);
+                return null;
+            }
         }
 
 @Override
@@ -71,4 +82,6 @@ public void save (Connection conn) {
         }
         }
 }
+
+
 

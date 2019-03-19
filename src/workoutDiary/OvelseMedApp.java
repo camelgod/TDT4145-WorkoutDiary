@@ -3,6 +3,7 @@ package workoutDiary;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.*;
 
 public class OvelseMedApp extends ActiveDomainObject {
 
@@ -22,8 +23,20 @@ public class OvelseMedApp extends ActiveDomainObject {
     }
 
     @Override
-    public void initialize(Connection conn) {
+    public String toString() {
+        return "OvelseMedApp{" +
+                "id=" + id +
+                ", ovelseNavn='" + ovelseNavn + '\'' +
+                ", beskrivelse='" + beskrivelse + '\'' +
+                ", antallKg=" + antallKg +
+                ", antallSett=" + antallSett +
+                ", appId=" + appId +
+                '}';
+    }
+
+    public List<OvelseMedApp> getOvelseMedApp(Connection conn) {
         try {
+            List<OvelseMedApp> ovelseMedAppList = new ArrayList<>();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("select ØvelseNavn, Beskrivelse, AntallKg, AntallSett, ApparatID from Gruppe where id=" + id);
             while (rs.next()) {
@@ -32,19 +45,18 @@ public class OvelseMedApp extends ActiveDomainObject {
                 antallKg = rs.getFloat("AntallKg");
                 antallSett = rs.getInt("AntallSett");
                 appId = rs.getInt("ApparatID");
+                OvelseMedApp oma = new OvelseMedApp(ovelseNavn, beskrivelse, antallKg, antallSett, appId);
+                ovelseMedAppList.add(oma);
             }
+            return ovelseMedAppList;
 
         } catch (Exception e) {
             System.out.println("db error during select of ovelsemedapp= "+e);
-            return;
+            return null;
         }
 
     }
 
-    @Override
-    public void refresh(Connection conn) {
-        initialize (conn);
-    }
 
     @Override
     public void save(Connection conn) {
