@@ -11,6 +11,9 @@ package workoutDiary;
 
 import java.sql.*;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Okt extends ActiveDomainObject {
@@ -80,7 +83,38 @@ public void save (Connection conn) {
         System.out.println("db error during insert of okt="+e);
         return;
         }
+}
+
+public List<String> getNNotes(Connection conn, int n){
+    try {
+        List<String> oktNotatList = new ArrayList<>();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery("select * from Treningsøkt order by Dato desc, Tidspunkt desc limit " + n);
+        while (rs.next()) {
+
+            notat = rs.getString("notat");
+
+            oktNotatList.add(notat);
         }
+        System.out.println(oktNotatList);
+        return oktNotatList;
+    } catch (Exception e) {
+        System.out.println("db error during select of avtale= "+e);
+        return null;
+    }
+}
+
+    public static void main(String[] args) {
+        DBConn connection = new DBConn();
+
+        connection.connect();
+
+        //Okt okt = new Okt(dato,tidspunkt,varighet,prestasjon);
+
+
+        Okt okt = new Okt(20190325, 12 ,22,9, 5, "Dette gikk bra");
+        okt.getNNotes(connection.conn, 2);
+    }
 }
 
 

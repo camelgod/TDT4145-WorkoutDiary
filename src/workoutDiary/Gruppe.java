@@ -61,16 +61,4 @@ public class Gruppe extends ActiveDomainObject{
         }
     }
 
-    public static void main(String[] args) {
-        // TODO code application logic here
-        DBConn connection = new DBConn();
-
-        connection.connect();
-
-        //Okt okt = new Okt(dato,tidspunkt,varighet,prestasjon);
-
-
-        Gruppe gruppe = new Gruppe("hei", "hei");
-        gruppe.getAllGroups(connection.conn);
-    }
 }
