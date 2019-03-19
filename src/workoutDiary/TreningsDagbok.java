@@ -26,6 +26,13 @@ public class TreningsDagbok {
         Okt okt1 = new Okt(20190325, 13 ,22,9, 5, "Dette gikk bra");
         okt1.save(connection.conn);
 
+        Gruppe gruppe = new Gruppe("Cardio", "Trenen hjertet");
+        gruppe.save(connection.conn);
 
+        OvelseMedApp ov = new OvelseMedApp("benkpress", "presse på en benk", 9, 20, 2);
+        ov.save(connection.conn);
+
+        OvelseUtenApp ovu = new OvelseUtenApp("Løpe ute", "Løpe ute");
+        ovu.save(connection.conn);
 	}
 }
