@@ -29,9 +29,9 @@ public class OvelseUtenApp extends ActiveDomainObject {
         try {
             List<OvelseUtenApp>  ovelseList = new ArrayList<>();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Ã˜velseUtenApp where id=" + id);
+            ResultSet rs = stmt.executeQuery("select * from ØvelseUtenApp where id=" + id);
             while (rs.next()) {
-                ovelseNavn = rs.getString("Ã˜velseNavn");
+                ovelseNavn = rs.getString("ØvelseNavn");
                 beskrivelse = rs.getString("beskrivelse");
                 OvelseUtenApp oua = new OvelseUtenApp(ovelseNavn,beskrivelse);
                 ovelseList.add(oua);
@@ -49,7 +49,7 @@ public class OvelseUtenApp extends ActiveDomainObject {
         try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(
-                    "INSERT INTO `Ã˜velseUtenApp` VALUES ("+id+","+"\""+ovelseNavn+"\""+","+"\""+beskrivelse+"\""+");");
+                    "INSERT INTO `ØvelseUtenApp` VALUES ("+id+","+"\""+ovelseNavn+"\""+","+"\""+beskrivelse+"\""+");");
 
         } catch (Exception e) {
             System.out.println("db error during insert of OvelseUtenApp="+e);

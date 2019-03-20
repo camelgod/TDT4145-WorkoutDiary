@@ -15,8 +15,8 @@ public class TreningsDagbok {
                 "This is the main menu." +
                         "\nMenu:" +
                         "\n[0] Quit" +
-                        "\n[1] Apparater" +
-                        "\n[2] Groups" +
+                        "\n[1] Session" +
+                        "\n[2] Group" +
                         "\n[3] Workouts" +
                         "\n[4] Statistics" +
                         "\n[5] Seesions" +
@@ -99,28 +99,86 @@ public class TreningsDagbok {
                     System.exit(0);
                 case 1:
                     while (true) {
-                        String value = t.getStringFromQuestion(
-                                "Hva heter mammaen din?",
-                                "^[A-Za-zøæåØÆÅ]+$",
-                                "Skrive et navn: "
+                        String notat = t.getStringFromQuestion(
+                                "Note for exercise",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
                         );
-                        int år = t.getIntFromQuestion(
-                                "Hvilket år er mammaen din født?",
+                        int dato = t.getIntFromQuestion(
+                                "Date for exercise",
                                 "^[0-9]+$",
-                                "Skrive et år: "
+                                "Dato for trening [YYYYMMDD] : "
                         );
-                        if (value.length() > 0) {
-                            Okt okt = new Okt(år,1,5,9, 5,"mamma heter: " + value );
-                            okt.save(connection.conn);
-                        }
+                        int tidspunkt = t.getIntFromQuestion(
+                                "Time for exercise?",
+                                "^[0-9]+$",
+                                "Dato for trening [HHMMSS]: "
+                        );
+                        int varighet = t.getIntFromQuestion(
+                                "Duration for exercise?",
+                                "^[0-9]+$",
+                                "Varighet for trening [i minutter]: "
+                        );
+                        int form = t.getIntFromQuestion(
+                                "Form for exercise?",
+                                "^[0-9]+$",
+                                "Hvordan er formen [Fra 1 til 10]: "
+                        );
+                        int prestasjon = t.getIntFromQuestion(
+                                "Performance for exercise?",
+                                "^[0-9]+$",
+                                "Hvordan var prestasjonen [Fra 1 til 10]: "
+                        );
 
-                        String quit = t.getStringFromQuestion(
-                                "Ferdig med å legge til? [Y/n]",
-                                "^[YyNn]?$",
-                                "Skriv Y eller N: "
+						Okt okt = new Okt(dato,tidspunkt,varighet, form, prestasjon, notat);
+						okt.save(connection.conn);
+						break;
+                    }
+                case 2:
+                    while (true) {
+                        int menu2Choice = t.getIntFromQuestion(
+                                "Vil du:\n"
+                                + "[0] Lage ny gruppe\n"
+                                + "[1] Vis manuelle �velser i en bestemt gruppe\n"
+                                + "[2] Vis apparat�velser i en bestemt gruppe",
+                                "^[0-9]+$",
+                                "Velg: "
                         );
-                        if (quit.length() == 0 || quit.toLowerCase().equals("y")) {
-                            break;
+
+                        switch(menu2Choice) {
+                            case 0:
+								String gruppeNavn = t.getStringFromQuestion(
+										"Gruppenavn",
+										"^[A-Za-z]+$",
+										"Skriv gruppenavn: "
+								);
+								String beskrivelse = t.getStringFromQuestion(
+										"Beskrivelse",
+										"^[A-Za-z]+$",
+										"Skriv beskrivelse: "
+								);
+
+								Gruppe gruppe = new Gruppe(gruppeNavn, beskrivelse);
+								gruppe.save(connection.conn);
+                            	break;
+                            case 1:
+								int gruppeValg = t.getIntFromQuestion(
+										"Hvilken gruppe vil du vise?",
+										"^[0-999999]+$",
+										"Velg gruppe [nummer]: "
+								);
+								System.out.println(Gruppe.getRelatedOvelserUtenApp(connection.conn, gruppeValg));
+								break;
+                            case 2:
+								int gruppe2Valg = t.getIntFromQuestion(
+										"Hvilken gruppe vil du vise?",
+										"^[0-999999]+$",
+										"Velg gruppe [nummer]: "
+								);
+								System.out.println(Gruppe.getRelatedOvelserMedApp(connection.conn, gruppe2Valg));
+								break;
+							default:
+								break;
                         }
                     }
             }

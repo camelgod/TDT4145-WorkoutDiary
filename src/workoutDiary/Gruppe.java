@@ -48,6 +48,51 @@ public class Gruppe extends ActiveDomainObject{
         }
     }
 
+    public static List<OvelseUtenApp> getRelatedOvelserUtenApp(Connection conn, int gruppeId)  {
+
+        try {
+            List<OvelseUtenApp> ovelseList = new ArrayList<>();
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from ØvelseUtenApp WHERE GruppeID =" + gruppeId);
+            while (rs.next()) {
+                String ovelseNavn = rs.getString("ØvelseNavn");
+                String beskrivelse = rs.getString("Beskrivelse");
+                OvelseUtenApp newovelse = new OvelseUtenApp(ovelseNavn, beskrivelse);
+                ovelseList.add(newovelse);
+            }
+            return ovelseList;
+        } catch (Exception e) {
+            System.out.println("db error during select of avtale= "+e);
+            return null;
+        }
+    }
+    
+    public static List<OvelseMedApp> getRelatedOvelserMedApp(Connection conn, int gruppeId)  {
+
+        try {
+            List<OvelseMedApp> ovelseList = new ArrayList<>();
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from ØvelseMedApp WHERE GruppeID =" + gruppeId);
+            while (rs.next()) {
+                String ovelseNavn = rs.getString("ØvelseNavn");
+                String beskrivelse = rs.getString("Beskrivelse");
+                int antallKg = rs.getInt("AntallKg");
+                int antallSett = rs.getInt("AntallSett");
+                int appId = rs.getInt("ApparatID");
+                OvelseMedApp newovelse = new OvelseMedApp(ovelseNavn, beskrivelse, antallKg, antallSett, appId);
+                ovelseList.add(newovelse);
+            }
+            return ovelseList;
+        } catch (Exception e) {
+            System.out.println("db error during select of avtale= "+e);
+            return null;
+        }
+    }
+
+
+
     @Override
     public void save(Connection conn) {
         try {
