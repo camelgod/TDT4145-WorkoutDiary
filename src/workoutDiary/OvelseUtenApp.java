@@ -29,7 +29,7 @@ public class OvelseUtenApp extends ActiveDomainObject {
         try {
             List<OvelseUtenApp>  ovelseList = new ArrayList<>();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select ØvelseNavn, beskrivelse from ØvelseUtenApp where id=" + id);
+            ResultSet rs = stmt.executeQuery("select * from ØvelseUtenApp where id=" + id);
             while (rs.next()) {
                 ovelseNavn = rs.getString("ØvelseNavn");
                 beskrivelse = rs.getString("beskrivelse");

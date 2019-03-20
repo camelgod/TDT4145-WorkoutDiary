@@ -54,8 +54,15 @@ public Okt(int date, int time, int varighet, int form ,int prestasjon, String no
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("select * from Treningsøkt ");
                 while (rs.next()) {
-                    dato =  rs.getInt("dato");
-                    tidspunkt =  rs.getInt("tidspunkt");
+                    Date d1 = rs.getDate("dato");
+                    String patternDate = "yyyyMMdd";
+                    DateFormat df = new SimpleDateFormat(patternDate);
+                    String dateAsString = df.format(d1);
+                    int dato = Integer.valueOf(dateAsString);
+                    Time t1=rs.getTime("tidspunkt");
+                    String patterTime = "HHmmss";
+                    DateFormat tf = new SimpleDateFormat(patterTime);
+                    String timeAsString = tf.format(t1);
                     varighet = rs.getInt("varighet");
                     prestasjon = rs.getInt("prestasjon");
                     form = rs.getInt("form");
@@ -85,6 +92,32 @@ public void save (Connection conn) {
         }
 }
 
+public void registrerOvelserMedAppTilOkt(Connection conn, int oktID, int ovelseMedAppID){
+    try {
+        Statement stmt = conn.createStatement();
+        stmt.executeUpdate(
+                "INSERT INTO `ØktØvelseMedApp` VALUES ("+oktID+","+ovelseMedAppID+");");
+
+    } catch (Exception e) {
+        System.out.println("db error during insert of okt="+e);
+        return;
+    }
+}
+
+public void registrerOvelserUtenAppTilOkt(Connection conn, int oktID, int ovelseUtenAppID){
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(
+                    "INSERT INTO `ØktØvelseUtenApp` VALUES ("+oktID+","+ovelseUtenAppID+");");
+
+        } catch (Exception e) {
+            System.out.println("db error during insert of okt="+e);
+            return;
+        }
+    }
+
+
+
 public List<String> getNNotes(Connection conn, int n){
     try {
         List<String> oktNotatList = new ArrayList<>();
@@ -113,7 +146,8 @@ public List<String> getNNotes(Connection conn, int n){
 
 
         Okt okt = new Okt(20190325, 12 ,22,9, 5, "Dette gikk bra");
-        okt.getNNotes(connection.conn, 2);
+        okt.registrerOvelserUtenAppTilOkt(connection.conn, 1, 2);
+
     }
 }
 

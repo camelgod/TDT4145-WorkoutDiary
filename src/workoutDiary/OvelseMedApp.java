@@ -38,7 +38,7 @@ public class OvelseMedApp extends ActiveDomainObject {
         try {
             List<OvelseMedApp> ovelseMedAppList = new ArrayList<>();
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select ØvelseNavn, Beskrivelse, AntallKg, AntallSett, ApparatID from Gruppe where id=" + id);
+            ResultSet rs = stmt.executeQuery("select * from ØvelseMedApp" );
             while (rs.next()) {
                 ovelseNavn = rs.getString("ØvelseNavn");
                 beskrivelse = rs.getString("Beskrivelse");
@@ -70,5 +70,15 @@ public class OvelseMedApp extends ActiveDomainObject {
             return;
         }
 
+    }
+
+    public static void main(String[] args) {
+
+        DBConn connection = new DBConn();
+
+        connection.connect();
+
+        OvelseMedApp oma = new OvelseMedApp("navn", "tull", 20, 3, 1);
+        oma.getOvelseMedApp(connection.conn);
     }
 }
