@@ -104,19 +104,16 @@ public class Okt extends ActiveDomainObject {
 		}
 	}
 	
-	public List<String> getNNotes(Connection conn, int n) {
+	public static List<String> getNNotes(Connection conn, int n) {
 		try {
 			List<String> oktNotatList = new ArrayList<>();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("select * from Treningsøkt order by Dato desc, Tidspunkt desc limit " + n);
 			while (rs.next()) {
-
-				notat = rs.getString("notat");
-
+				String notat = rs.getString("notat");
 				oktNotatList.add(notat);
 			}
-			System.out.println(oktNotatList);
 			return oktNotatList;
 		} catch (Exception e) {
 			System.out.println("db error during select of avtale= " + e);

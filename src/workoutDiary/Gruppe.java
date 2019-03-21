@@ -48,19 +48,22 @@ public class Gruppe extends ActiveDomainObject{
         }
     }
 
-    public static List<OvelseUtenApp> getRelatedOvelserUtenApp(Connection conn, int gruppeId)  {
+    public static List<String> getRelatedOvelserUtenApp(Connection conn, int gruppeId)  {
 
         try {
-            List<OvelseUtenApp> ovelseList = new ArrayList<>();
+            List<String> ovelseList = new ArrayList<>();
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from ØvelseUtenApp WHERE GruppeID =" + gruppeId);
+            ResultSet rs = stmt.executeQuery("SELECT `ØvelseUtenApp`.*, `GruppeOvelseUtenApp`.`GruppeID` "
+            		+ "FROM `ØvelseUtenApp` "
+            		+ "LEFT JOIN `GruppeOvelseUtenApp` ON `GruppeOvelseUtenApp`.`OvelseID` = `ØvelseUtenApp`.`ØvelseUtenAppID` WHERE GruppeID =" + gruppeId);
+            
+            
             while (rs.next()) {
                 String ovelseNavn = rs.getString("ØvelseNavn");
                 String beskrivelse = rs.getString("Beskrivelse");
                 int gruppeid = rs.getInt("GruppeID");
-                int oktid = rs.getInt("ØktID");
-                OvelseUtenApp newovelse = new OvelseUtenApp(ovelseNavn, beskrivelse, gruppeid, oktid);
+                String newovelse = ovelseNavn + beskrivelse + gruppeid;
                 ovelseList.add(newovelse);
             }
             return ovelseList;
@@ -70,27 +73,29 @@ public class Gruppe extends ActiveDomainObject{
         }
     }
     
-    public static List<OvelseMedApp> getRelatedOvelserMedApp(Connection conn, int gruppeId)  {
+    public static List<String> getRelatedOvelserMedApp(Connection conn, int gruppeId)  {
 
         try {
-            List<OvelseMedApp> ovelseList = new ArrayList<>();
+            List<String> ovelseList = new ArrayList<>();
 
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from ØvelseMedApp WHERE GruppeID =" + gruppeId);
+            ResultSet rs = stmt.executeQuery("SELECT `ØvelseMedApp`.*, `GruppeOvelseMedApp`.`GruppeID` "
+            		+ "FROM `ØvelseMedApp` "
+            		+ "LEFT JOIN `GruppeOvelseMedApp` ON `GruppeOvelseMedApp`.`OvelseID` = `ØvelseMedApp`.`ØvelseMedAppID` WHERE GruppeID =" + gruppeId);
+
+            
             while (rs.next()) {
                 String ovelseNavn = rs.getString("ØvelseNavn");
                 String beskrivelse = rs.getString("Beskrivelse");
                 int antallKg = rs.getInt("AntallKg");
                 int antallSett = rs.getInt("AntallSett");
                 int appId = rs.getInt("ApparatID");
-                int groupid = rs.getInt("GruppeID");
-                int oktid = rs.getInt("ØktID");
-                OvelseMedApp newovelse = new OvelseMedApp(ovelseNavn, beskrivelse, antallKg, antallSett, appId, groupid, oktid);
+                String newovelse = "Øvelse:" + ovelseNavn + ", Beskrivelse: " + beskrivelse + ", Antall KG: " + antallKg + ", Antall Sett: " + antallSett + ", APPID: " + appId;
                 ovelseList.add(newovelse);
             }
             return ovelseList;
         } catch (Exception e) {
-            System.out.println("db error during select of avtale= "+e);
+            System.out.println("db error during select of table= "+e);
             return null;
         }
     }

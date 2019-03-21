@@ -84,4 +84,17 @@ public class OvelseMedApp extends ActiveDomainObject {
         }
 
     }
+    public static void addRelationOvelseGruppe(Connection conn, int ovelseid, int gruppeid) {
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(
+                    "INSERT INTO GruppeOvelseMedApp VALUES ("+ovelseid+","+gruppeid+");");
+
+        } catch (Exception e) {
+            System.out.println("db error during insert of OvelseMedApp="+e);
+            return;
+        }
+
+    }
+    
 }
