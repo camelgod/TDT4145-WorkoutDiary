@@ -84,19 +84,22 @@ public class Okt extends ActiveDomainObject {
 		}
 	}
 
-	public static List<Integer> getResultLog(Connection conn, int start, int stop, int oktid) {
+	public static List<String> getResultLog(Connection conn, int start, int stop, int ovelseid) {
 		try {
-			List<Integer> oktNotatList = new ArrayList<>();
+			List<String> oktNotatList = new ArrayList<>();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Treningsøkt WHERE Dato between \"" + start + "\" and \"" + stop + "\"");
+					.executeQuery("SELECT `OktOvelseMedApp`.*, `Treningsøkt`.* FROM `Treningsøkt` "
+							+ "LEFT JOIN `OktOvelseMedApp` ON `OktOvelseMedApp`.`OktID` = `Treningsøkt`.`TreningsøktID` WHERE "
+							+ "`OktOvelseMedApp`.`OvelseID` = "+ovelseid+" AND `Treningsøkt`.`Dato` between '"+start+"' and '"+stop+"' ");
 
 			while (rs.next()) {
 				int prestasjon = rs.getInt("prestasjon");
-				oktNotatList.add(prestasjon);
+				int form = rs.getInt("form");
+				String notat = rs.getString("notat");
+				oktNotatList.add("Prestasjon: " + prestasjon + ", Form: " + form + ", Notat: " + notat);
 			}
 			
-			System.out.println(oktNotatList);
 			return oktNotatList;
 
 		} catch (Exception e) {

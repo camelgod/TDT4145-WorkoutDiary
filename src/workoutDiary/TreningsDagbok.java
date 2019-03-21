@@ -259,19 +259,19 @@ public class TreningsDagbok {
                 case 7:
                     while (true) {
                         int start = t.getIntFromQuestion(
-                                "Start date",
+                                "Start date: ",
                                 "^[0-99999999999]+$"
                         );
                         int stop = t.getIntFromQuestion(
-                                "Stop date",
+                                "Stop date: ",
                                 "^[0-99999999999]+$"
                         );
-                        int okt = t.getIntFromQuestion(
-                                "Okt ID",
+                        int ovelseid = t.getIntFromQuestion(
+                                "OvelseID: ",
                                 "^[0-99999999999]+$"
                         );
                         
-                        System.out.println(Okt.getResultLog(connection.conn, start, stop, okt));
+                        System.out.println(Okt.getResultLog(connection.conn, start, stop, ovelseid));
 						break;
                     }
 
