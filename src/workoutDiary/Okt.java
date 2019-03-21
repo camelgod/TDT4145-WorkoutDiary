@@ -104,7 +104,7 @@ public class Okt extends ActiveDomainObject {
 			return null;
 		}
 	}
-	public static List<Integer> getApparatCount(Connection conn, int oktid) {
+	public static List<Integer> getApparatCount(Connection conn, int oktid, int start, int stop) {
 		try {
 			List<Integer> oktNotatList = new ArrayList<>();
 			Statement stmt = conn.createStatement();
