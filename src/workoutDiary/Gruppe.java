@@ -58,7 +58,9 @@ public class Gruppe extends ActiveDomainObject{
             while (rs.next()) {
                 String ovelseNavn = rs.getString("ØvelseNavn");
                 String beskrivelse = rs.getString("Beskrivelse");
-                OvelseUtenApp newovelse = new OvelseUtenApp(ovelseNavn, beskrivelse);
+                int gruppeid = rs.getInt("GruppeID");
+                int oktid = rs.getInt("ØktID");
+                OvelseUtenApp newovelse = new OvelseUtenApp(ovelseNavn, beskrivelse, gruppeid, oktid);
                 ovelseList.add(newovelse);
             }
             return ovelseList;
@@ -81,7 +83,9 @@ public class Gruppe extends ActiveDomainObject{
                 int antallKg = rs.getInt("AntallKg");
                 int antallSett = rs.getInt("AntallSett");
                 int appId = rs.getInt("ApparatID");
-                OvelseMedApp newovelse = new OvelseMedApp(ovelseNavn, beskrivelse, antallKg, antallSett, appId);
+                int groupid = rs.getInt("GruppeID");
+                int oktid = rs.getInt("ØktID");
+                OvelseMedApp newovelse = new OvelseMedApp(ovelseNavn, beskrivelse, antallKg, antallSett, appId, groupid, oktid);
                 ovelseList.add(newovelse);
             }
             return ovelseList;

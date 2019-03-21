@@ -84,13 +84,53 @@ public class Okt extends ActiveDomainObject {
 		}
 	}
 
+	public static List<Integer> getResultLog(Connection conn, int start, int stop, int oktid) {
+		try {
+			List<Integer> oktNotatList = new ArrayList<>();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Treningsøkt WHERE Dato between \"" + start + "\" and \"" + stop + "\"");
+
+			while (rs.next()) {
+				int prestasjon = rs.getInt("prestasjon");
+				oktNotatList.add(prestasjon);
+			}
+			
+			System.out.println(oktNotatList);
+			return oktNotatList;
+
+		} catch (Exception e) {
+			System.out.println("db error during select of getresultlog= " + e);
+			return null;
+		}
+	}
+	public static List<Integer> getApparatCount(Connection conn, int oktid) {
+		try {
+			List<Integer> oktNotatList = new ArrayList<>();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Treningsøkt WHERE Dato between \"" + start + "\" and \"" + stop + "\"");
+
+			while (rs.next()) {
+				int prestasjon = rs.getInt("prestasjon");
+				oktNotatList.add(prestasjon);
+			}
+			
+			System.out.println(oktNotatList);
+			return oktNotatList;
+
+		} catch (Exception e) {
+			System.out.println("db error during select of getresultlog= " + e);
+			return null;
+		}
+	}
 
 	public List<String> getNNotes(Connection conn, int n) {
 		try {
 			List<String> oktNotatList = new ArrayList<>();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("select * from TreningsÃ¸kt order by Dato desc, Tidspunkt desc limit " + n);
+					.executeQuery("select * from Treningsøkt order by Dato desc, Tidspunkt desc limit " + n);
 			while (rs.next()) {
 
 				notat = rs.getString("notat");

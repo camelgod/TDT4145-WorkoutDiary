@@ -20,9 +20,11 @@ public class TreningsDagbok {
                         "\n[3] Workouts" +
                         "\n[4] Statistics" +
                         "\n[5] Seesions" +
+                        "\n[6] Devices" +
+                        "\n[7] Get performance from interval" +
                         "\n\nType number: ",
-                "^[0-5]$",
-                "Please provide a number between 0 and 5: "
+                "^[0-7]$",
+                "Please provide a number between 0 and 7: "
         );
     }
 
@@ -75,18 +77,8 @@ public class TreningsDagbok {
 
     public static void main(String[] args) {
 
-        // TODO code application logic here
         DBConn connection = new DBConn();
         connection.connect();
-
-        // Økt økt = new Økt(dato,tidspunkt,varighet,prestasjon);
-
-        //Apparat app1 = new Apparat("Hei", "yo");
-        //app1.save(connection.conn);
-
-
-        //Økt økt = new Økt(20190318,1,5,9, 5, "mamma" );
-        //økt.save(connection.conn);
 
         TreningsDagbok t = new TreningsDagbok();
 
@@ -132,6 +124,7 @@ public class TreningsDagbok {
 
 						Okt okt = new Okt(dato,tidspunkt,varighet, form, prestasjon, notat);
 						okt.save(connection.conn);
+						System.out.println("Saved okt successfully");
 						break;
                     }
                 case 2:
@@ -181,6 +174,107 @@ public class TreningsDagbok {
 								break;
                         }
                     }
+                case 3:
+                    while (true) {
+                        String navn = t.getStringFromQuestion(
+                                "Name for exercise",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+                        String beskrivelse = t.getStringFromQuestion(
+                                "Description for exercise",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+                        int gruppeid = t.getIntFromQuestion(
+                                "Group? (0 for none)",
+                                "^[0-999999999]+$"
+                        );
+                        int oktid = t.getIntFromQuestion(
+                                "Okt? (0 for none)",
+                                "^[0-9999999999999]+$"
+                        );
+
+						OvelseUtenApp ov1 = new OvelseUtenApp(navn, beskrivelse, gruppeid, oktid);
+						ov1.save(connection.conn);
+						System.out.println("Saved ovelse successfully");
+						break;
+                    }
+                case 4:
+                    while (true) {
+                        String navn = t.getStringFromQuestion(
+                                "Name for exercise",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+                        String beskrivelse = t.getStringFromQuestion(
+                                "Description for exercise",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+                        int gruppeid = t.getIntFromQuestion(
+                                "Group?",
+                                "^[0-9]+$"
+                        );
+                        int apparatid = t.getIntFromQuestion(
+                                "Apparat?",
+                                "^[0-9]+$"
+                        );
+                        int antallkg = t.getIntFromQuestion(
+                                "Kilos:", 
+                                "^[0-9]+$"
+                        );
+                        int antallsett = t.getIntFromQuestion(
+                                "Sets:",
+                                "^[0-9]+$"
+                        );
+                        int oktid = t.getIntFromQuestion(
+                                "Oktid:",
+                                "^[0-99999999]+$"
+                        );
+
+						OvelseMedApp ov2 = new OvelseMedApp(navn, beskrivelse, antallkg, antallsett, apparatid, gruppeid, oktid);
+						ov2.save(connection.conn);
+						System.out.println("Saved ovelse successfully");
+						break;
+                    }
+                case 6:
+                    while (true) {
+                        String navn = t.getStringFromQuestion(
+                                "Name for device",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+                        String beskrivelse = t.getStringFromQuestion(
+                                "Description for device",
+                                "^[A-Za-z]+$",
+                                "Skriv notat: "
+                        );
+
+						Apparat a1 = new Apparat(navn, beskrivelse);
+						a1.save(connection.conn);
+						System.out.println("Saved apparat successfully");
+						break;
+                    }
+                case 7:
+                    while (true) {
+                        int start = t.getIntFromQuestion(
+                                "Start date",
+                                "^[0-99999999999]+$"
+                        );
+                        int stop = t.getIntFromQuestion(
+                                "Stop date",
+                                "^[0-99999999999]+$"
+                        );
+                        int okt = t.getIntFromQuestion(
+                                "Okt ID",
+                                "^[0-99999999999]+$"
+                        );
+                        
+                        System.out.println(Okt.getResultLog(connection.conn, start, stop, okt));
+						break;
+                    }
+
             }
         }
     }

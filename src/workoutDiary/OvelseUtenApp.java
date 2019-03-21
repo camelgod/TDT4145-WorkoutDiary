@@ -10,10 +10,14 @@ public class OvelseUtenApp extends ActiveDomainObject {
     private int id;
     private String ovelseNavn;
     private String beskrivelse;
+    private int gruppeid = 0;
+    private int oktid = 0;
 
-    public OvelseUtenApp(String ovelseNavn, String beskrivelse){
+    public OvelseUtenApp(String ovelseNavn, String beskrivelse, int gruppeid, int oktid){
         this.ovelseNavn = ovelseNavn;
         this.beskrivelse = beskrivelse;
+        this.gruppeid = gruppeid;
+        this.oktid = oktid;
     }
 
     @Override
@@ -33,7 +37,9 @@ public class OvelseUtenApp extends ActiveDomainObject {
             while (rs.next()) {
                 ovelseNavn = rs.getString("ØvelseNavn");
                 beskrivelse = rs.getString("beskrivelse");
-                OvelseUtenApp oua = new OvelseUtenApp(ovelseNavn,beskrivelse);
+                gruppeid = rs.getInt("gruppeid");
+                gruppeid = rs.getInt("oktid");
+                OvelseUtenApp oua = new OvelseUtenApp(ovelseNavn,beskrivelse, gruppeid, oktid);
                 ovelseList.add(oua);
             }
             return ovelseList;
@@ -49,7 +55,7 @@ public class OvelseUtenApp extends ActiveDomainObject {
         try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(
-                    "INSERT INTO `ØvelseUtenApp` VALUES ("+id+","+"\""+ovelseNavn+"\""+","+"\""+beskrivelse+"\""+");");
+                    "INSERT INTO `ØvelseUtenApp` VALUES ("+id+","+"\""+ovelseNavn+"\""+","+"\""+beskrivelse+"\","+gruppeid+","+oktid+");");
 
         } catch (Exception e) {
             System.out.println("db error during insert of OvelseUtenApp="+e);
@@ -57,4 +63,5 @@ public class OvelseUtenApp extends ActiveDomainObject {
         }
 
     }
+    
 }
